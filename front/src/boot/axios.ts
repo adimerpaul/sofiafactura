@@ -18,7 +18,7 @@ const api = axios.create({ baseURL: 'https://api.example.com' })
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
-  app.config.globalProperties.$axios = axios.create({ baseURL: import.meta.env.VITE_BACK_API })
+  app.config.globalProperties.$axios = axios.create({ baseURL: import.meta.env.VITE_API_BACK })
   // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
   //       so you won't necessarily have to import axios in each vue file
 

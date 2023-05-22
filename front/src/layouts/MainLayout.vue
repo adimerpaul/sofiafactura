@@ -31,6 +31,7 @@
               <template v-slot:body-cell-pdf="props">
                 <q-td :props="props" auto-width>
 <!--                  {{props.row}}-->
+                   <q-btn color="white" text-color="black" label="PDF" @click="generarPdf(props.row)" />
                   <q-btn dense color="primary" label="Descargar" no-caps icon="fa-regular fa-file-pdf"
                          type="a" target="_blank"
                           :href="`https://siat.impuestos.gob.bo/consulta/QR?nit=3779602010&cuf=${props.row.cuffac}&numero=${props.row.nrofac}&t=2`" />
@@ -47,6 +48,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import moment from 'moment'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -65,7 +67,7 @@ export default defineComponent({
         {
           name: 'FechaCan',
           label: 'Fecha',
-          field: 'FechaCan',
+          field: (row: { FechaFac: moment.MomentInput }) => moment(row.FechaFac).format('DD/MM/YYYY'),
           align: 'left',
           sortable: true
         },
@@ -79,7 +81,7 @@ export default defineComponent({
         {
           name: 'CINIT',
           label: 'NIT',
-          field: 'CINIT',
+          field: 'IdCli',
           align: 'left',
           sortable: true
         }
@@ -99,6 +101,7 @@ export default defineComponent({
       this.$axios.post('consulta', {
         ci: this.search
       }).then((response: any) => {
+        console.log(response.data)
         this.facturas = response.data
       }).catch((error: any) => {
         console.log(error)
@@ -107,6 +110,12 @@ export default defineComponent({
           this.loading = false
         }
       )
+    },
+    generarPdf (factura: any) {
+      console.log(factura)
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      this.$axios.post('datosFact', {}).then(res => {
+      })
     }
   }
 })
