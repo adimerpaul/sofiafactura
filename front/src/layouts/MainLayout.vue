@@ -114,7 +114,7 @@ export default defineComponent({
     generarPdf (factura: any) {
       console.log(factura)
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      this.$axios.post('datosFact', {}).then(res => {
+      this.$axios.post('facturaPdf/' + factura.CodAut).then(res => {
       })
     }
   }
