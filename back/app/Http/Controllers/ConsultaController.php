@@ -25,7 +25,10 @@ order by CodAut desc
     public function facturaPdf($CodAut){
         $fact=DB::SELECT("SELECT * from tbfactura where CodAut =$CodAut")[0];
         $cliente=DB::SELECT("SELECT * from tbclientes where Id = $fact->IdCli");
-        $detalle=DB::SELECT("SELECT v.PVentUnit,v.Monto,v.cant,v.cod_pro,v.Descuatot,p.Producto FROM tbventas v inner join tbproductos p on v.cod_pro=p.cod_prod WHERE comanda=$fact->comanda;");
+        $detalle=DB::SELECT("SELECT v.PVentUnit,v.Monto,v.cant,v.cod_pro,v.Descuatot,p.Producto,(select m.Descripcion from tbunidmed m
+        where m.codUnid=v.Unidpeso) as unidad
+        FROM tbventas v inner join tbproductos p on v.cod_pro=p.cod_prod 
+        WHERE comanda=$fact->comanda;");
         $detalle='';
         $suma=0;
         $autoriza=$fact->cuffac;
@@ -61,8 +64,8 @@ order by CodAut desc
         <tr class='titulo1'><td class='area'>ALMACEN SOFIA<br>SUCURSAL 1<br>PUNTO DE VENTA $fact->PuntVenta<br>Prolongacion Campo Jordan esq Tacna Nro 28 ZONA Norte<br>Telefono : 5230064<br>ORURO</td></tr></table>
         <div class='titulo1'>FACTURA<br><span>(Con derecho a crédito fiscal)</span></div>
         <table class='area'>
-        <tr><td>FECHA:</td><td></td><td>NIT/CI/CEX:</td><td></td><td>Compl:</td><td></td></tr>
-        <tr><td>Nombres/Razon Social:</td><td></td><td>Cod Cliente:</td><td></td><td></td><td></td></tr>
+        <tr><td>FECHA:</td><td>$fact->FechaFac</td><td>NIT/CI/CEX:</td><td>$cliente->Id</td><td>Compl:</td><td>$cliente->complto</td></tr>
+        <tr><td>Nombres/Razon Social:</td><td>$cliente->Noombres</td><td>Cod Cliente:</td><td>$cliente->Cod_Aut</td><td></td><td></td></tr>
         </table>
         <table class='detalle'>
         <tr><th>Código Producto Servicio</th><th>Cantidad</th><th>Unidad de  medida</th><th>Descripcion</th><th>Precio unitario</th><th>Descuento</th><th>Importe</th></tr>

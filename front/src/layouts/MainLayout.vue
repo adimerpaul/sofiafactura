@@ -22,17 +22,17 @@
           <div class="col-12 col-md-4"></div>
           <div class="col-12 col-md-4 q-pa-xs">
             <q-form @submit="consulta">
-              <q-input outlined :loading="loading" clearable counter rounded v-model="search" placeholder="Buscar CI NIT" :rules="[val => val.length > 0 || 'Ingrese un CI NIT']" />
+              <q-input outlined :loading="loading" clearable counter rounded v-model="search" placeholder="Buscar CI NIT" :rules="[ val => val.length > 0 || 'Ingrese un CI NIT']" />
             </q-form>
           </div>
           <div class="col-12 col-md-4"></div>
           <div class="col-12" v-if="facturas.length > 0">
             <q-table :rows="facturas" :rows-per-page-options="[0]" :columns="column" :loading="loading">
               <template v-slot:body-cell-pdf="props">
-                <q-td :props="props" auto-width>
+                <q-td :props="props" >
 <!--                  {{props.row}}-->
-                   <q-btn color="white" text-color="black" label="PDF" @click="generarPdf(props.row)" />
-                  <q-btn dense color="primary" label="Descargar" no-caps icon="fa-regular fa-file-pdf"
+                   <q-btn dense color="red" label="PDF" icon="download" type="a" target="_blank" :href="url+'facturaPdf/'+props.row.CodAut" />
+                  <q-btn dense color="blue" label="SIAT" no-caps icon="fa-regular fa-file-pdf"
                          type="a" target="_blank"
                           :href="`https://siat.impuestos.gob.bo/consulta/QR?nit=3779602010&cuf=${props.row.cuffac}&numero=${props.row.nrofac}&t=2`" />
                 </q-td>
@@ -49,12 +49,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import moment from 'moment'
+import { env } from 'process'
 
 export default defineComponent({
   name: 'MainLayout',
   data () {
     return {
       search: '5722359015',
+      url: 'http://localhost:8000/api/',
       facturas: [],
       loading: false,
       column: [
@@ -100,10 +102,10 @@ export default defineComponent({
       this.loading = true
       this.$axios.post('consulta', {
         ci: this.search
-      }).then((response: any) => {
+      }).then((response) => {
         console.log(response.data)
         this.facturas = response.data
-      }).catch((error: any) => {
+      }).catch((error) => {
         console.log(error)
       }).finally(
         () => {
@@ -111,10 +113,10 @@ export default defineComponent({
         }
       )
     },
-    generarPdf (factura: any) {
+    generarPdf (factura: { CodAut: string }) {
       console.log(factura)
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      this.$axios.post('facturaPdf/' + factura.CodAut).then(res => {
+      this.$axios.post('facturaPdf/' + factura.CodAut).then(() => {
       })
     }
   }
