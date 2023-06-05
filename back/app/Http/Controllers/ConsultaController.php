@@ -19,7 +19,7 @@ class ConsultaController extends Controller
         ]);
         $ci = $request->ci;
         return DB::select("select *
-from  tbfactura 
+from  tbfactura
 where IdCli ='$ci' and cuffac!=''
 order by CodAut desc
 ");
@@ -30,13 +30,13 @@ order by CodAut desc
         $cliente=DB::SELECT("SELECT * from tbclientes where Id = $fact->IdCli")[0];
         $detalle=DB::SELECT("SELECT v.PVentUnit,v.Monto,v.cant,v.cod_pro,v.Descuatot,p.Producto,(select m.Descripcion from tbunidmed m
         where m.codUnid=v.Unidpeso) as unidad
-        FROM tbventas v inner join tbproductos p on v.cod_pro=p.cod_prod 
+        FROM tbventas v inner join tbproductos p on v.cod_pro=p.cod_prod
         WHERE v.Comanda=$fact->comanda;");
         if(sizeof($detalle)<=0)
             return false;
         $subtotal=0;
         $contenido='';
-     
+
         foreach ($detalle as $value) {
             # code...
             if($value->unidad==null) $value->unidad='KILOGRAMO';
@@ -49,8 +49,8 @@ order by CodAut desc
         $suma=0;
         $autoriza=$fact->cuffac;
         $urlsiat="https://siat.impuestos.gob.bo/consulta/QR?nit=3779602010&cuf=".$autoriza."&numero=".$fact->nrofac."&t=2";
-        //$png = QrCode::format('png')->size(250)->generate($urlsiat);
-        //$png = base64_encode($png);
+        $png = QrCode::format('png')->size(250)->generate($urlsiat);
+        $png = base64_encode($png);
         $cadena="<style>
         .imagen{
             height:100px;
@@ -82,8 +82,8 @@ order by CodAut desc
         </style>
         <table>
         <tr><td style='width:50%'><img class='imagen' src='img/sofia.png' /></td><td><table class='area'><tr><td><b>NIT:</b></td><td>3779602010</td></tr><tr><td><b>FACTURA No: </b></td><td>$fact->nrofac</td></tr><tr><td style='vertical-align:top'><b>COD. AUTORIZACION:</b> </td><td>".substr($autoriza,0,23)."<br>".substr($autoriza,23,23)."<br> ".substr($autoriza,46)."</td></tr></table></td></tr>
-        <tr class='titulo1'><td class='area'>ALMACEN SOFIA<br>SUCURSAL 1<br>PUNTO DE VENTA $fact->PuntVenta<br>Prolongacion Campo Jordan esq Tacna Nro 28 ZONA Norte<br>Telefono : 5230064<br>ORURO</td></tr></table>
-        <div class='titulo1'>FACTURA<br><span>(Con derecho a crédito fiscal)</span></div>
+        <tr class='titulo1'><td class='area'>ALMACEN SOFIA<br>SUCURSAL 1<br>PUNTO DE VENTA $fact->PuntVenta<br>Prolongacion Campo Jordan esq Tacna Nro 28 ZONA Norte<br>Telefono : 5230064<br>ORURO</td><td><span style='color:blue; font-size:14px;'>COPIA</span><br>$fact->comanda</td></tr></table>
+        <div class='titulo1'><span style='color:blue; font-size:14px;'>FACTURA</span><br><span>(Con derecho a crédito fiscal)</span></div>
         <table class='area'>
         <tr><td><b>FECHA:</b></td><td>$fact->FechaFac</td><td><b>NIT/CI/CEX:</b></td><td>$cliente->Id</td><td><b>Compl:</b></td><td>$cliente->complto</td></tr>
         <tr><td><b>Nombres/Razon Social:</b></td><td>$cliente->Nombres</td><td><b>Cod Cliente:</b></td><td>$cliente->Cod_Aut</td><td></td><td></td></tr>
@@ -95,8 +95,9 @@ order by CodAut desc
         <table><tr><td style='vertical-align:top'><b>Son:</b> ".$formatter->toString($entero)." $decimal/100 Bolivianos</td>
         <td><table class='detalle2'><tr class='detalle2'><td>SUBTOTAL Bs.</td><td style='color:blue'>".number_format($subtotal,2)."</td></tr><tr class='detalle2'><td>DESCUENTO Bs.</td><td>0</td></tr><tr class='detalle2'><td>TOTAL Bs.</td><td>".number_format($subtotal,2)."</td></tr><tr class='detalle2'><td>MONTO GIFT CARD Bs.</td><td>0</td></tr><tr class='detalle2'><td><b>MONTO A PAGAR Bs.</b></td><td>".number_format($subtotal,2)."</td></tr><tr class='detalle2'><td>IMPORTE BASE CRÉDITO FISCAL Bs.</td><td>".number_format($subtotal,2)."</td></tr></table></td>
         </tr></table>
-        <table><tr><td style='text-align:center;'>&quot;ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS, EL USO ILÍCITO SERÁ SANCIONADO PENALMENTE DE ACUERDO A LEY&quot;.</td><td rowspan=3 style='width:30%'>
-        <img src='' style='border:2px solid white;position: absolute;top: 600px;right: 450px;width: 90px;height: 90px'></td></tr>
+        <table><tr>
+        <td style='text-align:center;'>&quot;ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS, EL USO ILÍCITO SERÁ SANCIONADO PENALMENTE DE ACUERDO A LEY&quot;.</td>
+        <td rowspan=3 style='width:30%; text-align:center;'><img src='data:image/png;base64,". $png ."' style='border:2px solid white;width: 120px;height: 120px'></td></tr>
         <tr><td style='text-align:center;'>No 453: En caso de incumplimiento a lo ofertado o convenido, el proveedor debe reparar o sustituir el producto.</td></tr>
         <tr><td style='text-align:center;'> Este documento es la Representación Gráfica de un Documento Fiscal Digital emitido en una modalidad de facturación en linea.</td></tr>
         </table>

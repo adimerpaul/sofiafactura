@@ -49,7 +49,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import moment from 'moment'
-import { env } from 'process'
 
 export default defineComponent({
   name: 'MainLayout',
