@@ -53,11 +53,16 @@ order by CodAut desc
         $png = base64_encode($png);
         $cadena="<style>
         .imagen{
-            height:100px;
-            width:300px;
+            width:150px;
         }
-        *{ margin:5px;
-        font-size:12px;}
+        *{
+            margin:5px;
+            font-size:13px;
+            font-family: Calibri, sans-serif;
+        }
+        body{
+            margin:10px;
+        }
         table {
             width: 100%;
           }
@@ -77,23 +82,41 @@ order by CodAut desc
             padding: 2px;
             border: 1px solid;
             border-collapse: collapse;
-            font-size: 10px;
+            font-size: 12px;
           }
         </style>
-        <table>
-        <tr><td style='width:50%'><img class='imagen' src='img/sofia.png' /></td><td><table class='area'><tr><td><b>NIT:</b></td><td>3779602010</td></tr><tr><td><b>FACTURA No: </b></td><td>$fact->nrofac</td></tr><tr><td style='vertical-align:top'><b>COD. AUTORIZACION:</b> </td><td>".substr($autoriza,0,23)."<br>".substr($autoriza,23,23)."<br> ".substr($autoriza,46)."</td></tr></table></td></tr>
-        <tr class='titulo1'><td class='area'>ALMACEN SOFIA<br>SUCURSAL 1<br>PUNTO DE VENTA $fact->PuntVenta<br>Prolongacion Campo Jordan esq Tacna Nro 28 ZONA Norte<br>Telefono : 5230064<br>ORURO</td><td><span style='color:blue; font-size:14px;'>COPIA</span><br>$fact->comanda</td></tr></table>
-        <div class='titulo1'><span style='color:blue; font-size:14px;'>FACTURA</span><br><span>(Con derecho a crédito fiscal)</span></div>
+        <div style='padding: 10px'>
+         <table>
+        <tr>
+        <td style='text-align: center;'>
+            <img class='imagen' src='img/sofia.png'>
+        </td>
+        <td>
+        <table class='area'>
+        <tr>
+        <td><b>NIT:</b></td><td>3779602010</td></tr><tr><td><b>FACTURA No: </b></td><td>$fact->nrofac</td></tr><tr><td style='vertical-align:top'><b>COD. AUTORIZACION:</b> </td><td>".substr($autoriza,0,23)."<br>".substr($autoriza,23,23)."<br> ".substr($autoriza,46)."</td></tr></table></td></tr>
+        <tr class='titulo1'><td class='area'>ALMACEN SOFIA<br>SUCURSAL 1<br>PUNTO DE VENTA $fact->PuntVenta<br>Prolongacion Campo Jordan esq Tacna Nro 28 ZONA Norte<br>Telefono : 5230064<br>ORURO</td><td><span style='color:blue;  font-size:16px;font-weight: bold'>COPIA</span><br>$fact->comanda</td></tr></table>
+        <div class='titulo1'><span style='color:blue; font-size:16px;font-weight: bold'>FACTURA</span><br><span>(Con derecho a crédito fiscal)</span></div>
         <table class='area'>
         <tr><td><b>FECHA:</b></td><td>$fact->FechaFac</td><td><b>NIT/CI/CEX:</b></td><td>$cliente->Id</td><td><b>Compl:</b></td><td>$cliente->complto</td></tr>
         <tr><td><b>Nombres/Razon Social:</b></td><td>$cliente->Nombres</td><td><b>Cod Cliente:</b></td><td>$cliente->Cod_Aut</td><td></td><td></td></tr>
         </table>
         <table class='detalle'>
-        <tr><th>Código Producto Servicio</th><th>Cantidad</th><th>Unidad de Medida</th><th>Descripcion</th><th>Precio unitario</th><th>Descuento</th><th>Importe</th></tr>
+        <tr>
+            <th style='padding: 5px;border: 1px solid'>Código Producto Servicio</th>
+            <th style='padding: 5px;border: 1px solid'>Cantidad</th>
+            <th style='padding: 5px;border: 1px solid'>Unidad de Medida</th>
+            <th style='padding: 5px;border: 1px solid'>Descripcion</th>
+            <th style='padding: 5px;border: 1px solid'>Precio unitario</th>
+            <th style='padding: 5px;border: 1px solid'>Descuento</th>
+            <th style='padding: 5px;border: 1px solid'>Importe</th>
+          </tr>
         ".$contenido."
         </table>
-        <table><tr><td style='vertical-align:top'><b>Son:</b> ".$formatter->toString($entero)." $decimal/100 Bolivianos</td>
-        <td><table class='detalle2'><tr class='detalle2'><td>SUBTOTAL Bs.</td><td style='color:blue'>".number_format($subtotal,2)."</td></tr><tr class='detalle2'><td>DESCUENTO Bs.</td><td>0</td></tr><tr class='detalle2'><td>TOTAL Bs.</td><td>".number_format($subtotal,2)."</td></tr><tr class='detalle2'><td>MONTO GIFT CARD Bs.</td><td>0</td></tr><tr class='detalle2'><td><b>MONTO A PAGAR Bs.</b></td><td>".number_format($subtotal,2)."</td></tr><tr class='detalle2'><td>IMPORTE BASE CRÉDITO FISCAL Bs.</td><td>".number_format($subtotal,2)."</td></tr></table></td>
+        <table>
+            <tr>
+                <td style='vertical-align:top'><b>Son:</b> ".$formatter->toString($entero)." $decimal/100 Bolivianos</td>
+                <td><table class='detalle2'><tr class='detalle2'><td>SUBTOTAL Bs.</td><td style='color:blue; font-size:16px;font-weight: bold'>".number_format($subtotal,2)."</td></tr><tr class='detalle2'><td>DESCUENTO Bs.</td><td>0</td></tr><tr class='detalle2'><td>TOTAL Bs.</td><td>".number_format($subtotal,2)."</td></tr><tr class='detalle2'><td>MONTO GIFT CARD Bs.</td><td>0</td></tr><tr class='detalle2'><td><b>MONTO A PAGAR Bs.</b></td><td>".number_format($subtotal,2)."</td></tr><tr class='detalle2'><td>IMPORTE BASE CRÉDITO FISCAL Bs.</td><td>".number_format($subtotal,2)."</td></tr></table></td>
         </tr></table>
         <table><tr>
         <td style='text-align:center;'>&quot;ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS, EL USO ILÍCITO SERÁ SANCIONADO PENALMENTE DE ACUERDO A LEY&quot;.</td>
@@ -101,6 +124,8 @@ order by CodAut desc
         <tr><td style='text-align:center;'>No 453: En caso de incumplimiento a lo ofertado o convenido, el proveedor debe reparar o sustituir el producto.</td></tr>
         <tr><td style='text-align:center;'> Este documento es la Representación Gráfica de un Documento Fiscal Digital emitido en una modalidad de facturación en linea.</td></tr>
         </table>
+        </div>
+
         ";
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($cadena);

@@ -31,7 +31,8 @@
               <template v-slot:body-cell-pdf="props">
                 <q-td :props="props" >
 <!--                  {{props.row}}-->
-                   <q-btn dense color="red" label="PDF" icon="download" type="a" target="_blank" :href="url+'facturaPdf/'+props.row.CodAut" />
+                  <q-btn dense color="red" label="PDF" icon="download" type="a" target="_blank" :href="url+'facturaPdf/'+props.row.CodAut" />
+                  <br>
                   <q-btn dense color="blue" label="SIAT" no-caps icon="fa-regular fa-file-pdf"
                          type="a" target="_blank"
                           :href="`https://siat.impuestos.gob.bo/consulta/QR?nit=3779602010&cuf=${props.row.cuffac}&numero=${props.row.nrofac}&t=2`" />
