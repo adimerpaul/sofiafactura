@@ -57,11 +57,8 @@ order by CodAut desc
         }
         *{
             margin:5px;
-            font-size:13px;
+            font-size:12px;
             font-family: Calibri, sans-serif;
-        }
-        body{
-            margin:10px;
         }
         table {
             width: 100%;
@@ -82,10 +79,10 @@ order by CodAut desc
             padding: 2px;
             border: 1px solid;
             border-collapse: collapse;
-            font-size: 12px;
+            font-size: 11px;
           }
         </style>
-        <div style='padding: 10px'>
+        <div style='padding-left: 10px;padding-right: 10px'>
          <table>
         <tr>
         <td style='text-align: center;'>
