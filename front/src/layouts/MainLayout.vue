@@ -55,7 +55,7 @@ export default defineComponent({
   name: 'MainLayout',
   data () {
     return {
-      search: '5722359015',
+      search: '',
       url: 'https://bsofiafactura.siscenter.org/api/',
       facturas: [],
       loading: false,
