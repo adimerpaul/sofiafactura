@@ -32,7 +32,7 @@ order by CodAut desc
         where m.codUnid=v.Unidpeso) as unidad
         FROM tbventas v inner join tbproductos p on v.cod_pro=p.cod_prod
         WHERE v.Comanda=$fact->comanda;");
-        $ley=DB::SELECT("SELECT * from tbleyenda where codAut=$fact->Docifi");
+        $ley=DB::SELECT("SELECT * from tbleyenda where codAut=$fact->Docifi")[0];
         if(sizeof($detalle)<=0)
             return false;
         $subtotal=0;
