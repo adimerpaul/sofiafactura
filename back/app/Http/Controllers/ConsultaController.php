@@ -32,7 +32,7 @@ order by CodAut desc
         where m.codUnid=v.Unidpeso) as unidad
         FROM tbventas v inner join tbproductos p on v.cod_pro=p.cod_prod
         WHERE v.Comanda=$fact->comanda;");
-        $ley=DB::SELECT("SELECT * from tbleyenda where codAut=$fact->Docifi")[0];
+        $ley=DB::SELECT("SELECT * from tbdatfac1 where Docifi=$fact->Docifi")[0];
         if(sizeof($detalle)<=0)
             return false;
         $subtotal=0;
@@ -119,7 +119,7 @@ order by CodAut desc
         <table><tr>
         <td style='text-align:center;'>&quot;ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS, EL USO ILÍCITO SERÁ SANCIONADO PENALMENTE DE ACUERDO A LEY&quot;.</td>
         <td rowspan=3 style='width:30%; text-align:center;'><img src='data:image/png;base64,". $png ."' style='border:2px solid white;width: 120px;height: 120px'></td></tr>
-        <tr><td style='text-align:center;'>$ley->leyenda</td></tr>
+        <tr><td style='text-align:center;'>$ley->Leyenda</td></tr>
         <tr><td style='text-align:center;'> Este documento es la Representación Gráfica de un Documento Fiscal Digital emitido en una modalidad de facturación en linea.</td></tr>
         </table>
         </div>
