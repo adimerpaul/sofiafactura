@@ -29,7 +29,7 @@ order by CodAut desc
         $fact=DB::SELECT("SELECT * from tbfactura where CodAut =$CodAut")[0];
         $cliente=DB::SELECT("SELECT * from tbclientes where Id = $fact->IdCli")[0];
         $detalle=DB::SELECT("SELECT v.PVentUnit,v.Monto,v.cant,v.cod_pro,v.Descuatot,p.Producto,(select m.Descripcion from tbunidmed m
-        where m.codUnid=v.Unidpeso) as unidad
+        where m.Codmed=p.codUnid) as unidad
         FROM tbventas v inner join tbproductos p on v.cod_pro=p.cod_prod
         WHERE v.Comanda=$fact->comanda;");
         $ley=DB::SELECT("SELECT * from tbdatfac1 where Docifi=$fact->Docifi")[0];
